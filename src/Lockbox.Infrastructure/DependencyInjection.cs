@@ -1,12 +1,9 @@
 using Lockbox.Application.Contracts;
 using Lockbox.Infrastructure.Data;
 using Lockbox.Infrastructure.EmailServices;
-using Lockbox.Infrastructure.Identity;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
 namespace Lockbox.Infrastructure;
 
 public static class DependencyInjection
@@ -22,16 +19,9 @@ public static class DependencyInjection
             opt.UseNpgsql(connectionString);
         });
 
-        // AddAuthentication
-        services
-            .AddIdentityCore<ApplicationUser>()
-            .AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>();
-
-        services.AddScoped<IAuthService, AuthService>();
+        //services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ApplicationDbContextInitializer>();
-        services.AddScoped<IMailService, LocalEmailSender>();
-        
-        return services;
+        services.AddTransient<IMailService, LocalEmailSender>();
+        return services;        
     }
 }

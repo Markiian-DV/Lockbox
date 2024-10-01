@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lockbox.Presentation.Controllers;
@@ -28,6 +29,13 @@ public class TestController : ControllerBase
             Summary = Summaries[Random.Shared.Next(Summaries.Length)]
         })
         .ToArray();
+    }
+
+    [Authorize]
+    [HttpGet("sayhello")]
+    public string SayHello()
+    {
+        return "Hello";
     }
 }
 
