@@ -4,4 +4,5 @@ namespace Lockbox.Infrastructure.Identity;
 
 public class ApplicationUser : IdentityUser
 {
+    
 }
