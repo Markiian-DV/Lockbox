@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Lockbox.Presentation.Controllers;
+namespace Lockbox.Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

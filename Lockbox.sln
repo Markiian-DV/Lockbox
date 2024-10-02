@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DF326F6E-AB6C-4B3E-BD8D-775288A782F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lockbox.Presentation", "src\Lockbox.Presentation\Lockbox.Presentation.csproj", "{521963AF-1FDE-442A-ABA5-33A8DB6EFCCA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lockbox.Web", "src\Lockbox.Web\Lockbox.Web.csproj", "{521963AF-1FDE-442A-ABA5-33A8DB6EFCCA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lockbox.Application", "src\Lockbox.Application\Lockbox.Application.csproj", "{2043FFEF-A957-4815-8B64-D4BB1A86F466}"
 EndProject

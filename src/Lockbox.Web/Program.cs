@@ -3,7 +3,7 @@ using Lockbox.Infrastructure.Data;
 using Lockbox.Application;
 using Microsoft.AspNetCore.Identity;
 using Lockbox.Infrastructure.Identity;
-using Lockbox.Presentation.Identity;
+using Lockbox.Web.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 

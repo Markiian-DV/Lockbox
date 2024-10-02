@@ -1,6 +1,6 @@
 using Lockbox.Application.Contracts;
 using Microsoft.AspNetCore.Identity.UI.Services;
-namespace Lockbox.Presentation.Identity;
+namespace Lockbox.Web.Identity;
 
 // this is basically proxy for IMailService since identity`s IEmailSender cant be accessed from classlib 
 public class IdentityEmailSender : IEmailSender
