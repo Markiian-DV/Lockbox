@@ -29,7 +29,14 @@ internal class LocalEmailSender : IMailService
             EnableSsl = false
         };
 
-        await smtpClient.SendMailAsync(mailMessage);
+        try
+        {
+            await smtpClient.SendMailAsync(mailMessage);
+        }
+        catch
+        {
+            // local sender, do nothing
+        }
 
         return new Result();
     }

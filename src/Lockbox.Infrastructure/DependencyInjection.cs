@@ -15,11 +15,10 @@ public static class DependencyInjection
 
         services.AddDbContext<ApplicationDbContext>(opt => 
         {
-            // TODO: add interceptor to handle CreatedOn, ModifiedOn etc...
             opt.UseNpgsql(connectionString);
         });
+         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
-        //services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ApplicationDbContextInitializer>();
         services.AddTransient<IMailService, LocalEmailSender>();
         return services;        
