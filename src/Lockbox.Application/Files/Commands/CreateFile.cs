@@ -1,7 +1,6 @@
 using Lockbox.Application.Contracts;
 using Lockbox.Application.Cryptography;
 using Lockbox.Domain.Converters;
-using Lockbox.Domain.Entities;
 using Lockbox.Domain.Enums;
 using MediatR;
 using File = Lockbox.Domain.Entities.File;
@@ -23,7 +22,8 @@ public class CreateFileCommandHandler : IRequestHandler<CreateFileCommand>
     {
         var fileAccessKey = AesCryptoService.CreateFileAccessKey();
         var fileId = Guid.NewGuid();
-        using (var outputFileStream = new FileStream(fileId.ToString(), FileMode.Create, System.IO.FileAccess.Write))
+        // this abracadabra code encrypts and safes file
+        using (var outputFileStream = new FileStream("../../LockboxData/" + fileId.ToString(), FileMode.Create, System.IO.FileAccess.Write))
         {
             await AesCryptoService.EncryptFileAsync(fileAccessKey, request.Stream, outputFileStream);
         }
@@ -58,4 +58,4 @@ public class CreateFileCommandHandler : IRequestHandler<CreateFileCommand>
 // 3. файл шифрується `
 // 4. файл зберігається на сервері `
 // 5. симетричний ключ шифрується публічним ключем юзера. `
-// 6.  метадані про файл та симетричний ключ зберігатся на сервері `
+// 6. метадані про файл та симетричний ключ зберігаєтся в бд `
