@@ -13,14 +13,14 @@ public static class DependencyInjection
         var connectionString = configuration.GetConnectionString("PSQL");
         ArgumentException.ThrowIfNullOrWhiteSpace(connectionString, "Connection string is missing");
 
-        services.AddDbContext<ApplicationDbContext>(opt => 
+        services.AddDbContext<ApplicationDbContext>(opt =>
         {
             opt.UseNpgsql(connectionString);
         });
-         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
-
+        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         services.AddScoped<ApplicationDbContextInitializer>();
         services.AddTransient<IMailService, LocalEmailSender>();
-        return services;        
+        
+        return services;
     }
 }

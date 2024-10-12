@@ -1,5 +1,5 @@
-using System.Security.Cryptography;
 using Lockbox.Application.Contracts;
+using Lockbox.Application.Cryptography;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,23 +27,14 @@ public class CreateUserKeysCommandHandler : IRequestHandler<CreateUserKeysComman
             throw new Exception("key already exist");
         }
 
-        var (publicKey, privateKey) = GenerateKey();
+        var (publicKey, privateKey) = RsaCryptoService.GenerateKey();
         await _dbContext.PublicKeys.AddAsync(new Domain.Entities.PublicKey
         {
             UserId = request.UserId,
             KeyValue = publicKey
         });
 
-        await _dbContext.SaveChangesAsync(ct);
-
+        await _dbContext.SaveChangesAsync();
         return new PrivateKey(privateKey);
-    }
-
-    private static (string, string) GenerateKey()
-    {
-        using RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-        string publicKey = rsa.ToXmlString(false);
-        string privateKey = rsa.ToXmlString(true);
-        return (publicKey, privateKey);
     }
 }

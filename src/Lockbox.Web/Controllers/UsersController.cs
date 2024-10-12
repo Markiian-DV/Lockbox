@@ -1,5 +1,5 @@
-using System.Security.Claims;
 using Lockbox.Application.UserKeys.Commands;
+using Lockbox.Web.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,19 +12,18 @@ namespace Lockbox.Web.Controllers;
 public class UserController : ControllerBase
 {
     private readonly ISender _sender;
-    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly UserContext _userContext;
 
-    public UserController(ISender sender, IHttpContextAccessor httpContextAccessor)
+    public UserController(ISender sender, UserContext userContext)
     {
         _sender = sender;
-        _httpContextAccessor = httpContextAccessor;
+        _userContext = userContext;
     }
 
     [HttpPost("keys")]
     public async Task<string> GenerateKeys()
     {
-        var userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
-        var result = await _sender.Send(new CreateUserKeysCommand(userId));
+        var result = await _sender.Send(new CreateUserKeysCommand(_userContext.UserId));
         return result.Value;
     }
 }

@@ -13,6 +13,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
     public DbSet<PublicKey> PublicKeys { get; set; }
+    public DbSet<Domain.Entities.File> Files { get; set; }
+    public DbSet<Domain.Entities.FileAccess> FilesAccess { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

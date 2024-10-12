@@ -4,11 +4,15 @@ using Lockbox.Application;
 using Microsoft.AspNetCore.Identity;
 using Lockbox.Infrastructure.Identity;
 using Lockbox.Web.Identity;
+using Lockbox.Web.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+//add web services:
+builder.Services.AddScoped<UserContext>();
+//end web services
 builder.Services
     .AddApplicationServices()
     .AddInfrastructureServices(builder.Configuration);

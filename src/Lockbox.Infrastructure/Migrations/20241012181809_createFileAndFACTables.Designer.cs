@@ -3,6 +3,7 @@ using System;
 using Lockbox.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Lockbox.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241012181809_createFileAndFACTables")]
+    partial class createFileAndFACTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,9 +44,8 @@ namespace Lockbox.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("OwnerId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uuid");
 
                     b.Property<long>("SizeInBytes")
                         .HasColumnType("bigint");
@@ -77,7 +79,7 @@ namespace Lockbox.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("ModifiedOn")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTimeOffset?>("RevokedData")
+                    b.Property<DateTimeOffset>("RevokedData")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserId")
