@@ -1,8 +1,9 @@
 using Lockbox.Application.Files.Commands;
+using Lockbox.Application.Files.Queries;
 using Lockbox.Web.Infrastructure;
+using Lockbox.Web.WebModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lockbox.Web.Controllers;
@@ -22,7 +23,7 @@ public class FilesController : ControllerBase
     }
 
     [HttpPost("upload")]
-    [RequestSizeLimit(1024*1024*10)] 
+    [RequestSizeLimit(1024 * 1024 * 10)]
     public async Task<IActionResult> Upload(IFormFile file)
     {
         using var stream = file.OpenReadStream();
@@ -30,4 +31,20 @@ public class FilesController : ControllerBase
         return Ok();
     }
 
+    [HttpPost("download")]
+    public async Task<IActionResult> DownloadFile(GetFileRequest request)
+    {
+        var response = await _sender.Send(new GetFileCommand(_userContext.UserId, request.FileId, request.Key));
+        // should not dispose stream, it will be disposed auto-magically 
+        return new FileStreamResult(response.Stream, "application/octet-stream")
+        {
+            FileDownloadName = response.FileName
+        };
+    }
+
+    [HttpGet("info")]
+    public async Task GetFilesInfo()
+    {
+
+    }
 }
