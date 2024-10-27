@@ -6,4 +6,5 @@ public interface IUserService
 {
     Task<LockboxUser> GetUser(string userId);
     Task<List<LockboxUser>> GetUsers(IEnumerable<string> userIds);
+    Task<LockboxUser> GetUserByEmail(string email);
 }

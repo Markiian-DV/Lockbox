@@ -20,8 +20,8 @@ public class GetFileQueryHandler : IRequestHandler<GetFileQuery, GetFileResult>
 
     public async Task<GetFileResult> Handle(GetFileQuery request, CancellationToken cancellationToken)
     {
-        var fileAccess = await _dbContext.FilesAccess
-         .SingleOrDefaultAsync(e => e.FileId == request.FileId && e.UserId == request.UserId);
+        var fileAccess = await _dbContext.FilesAccess 
+         .SingleOrDefaultAsync(e => e.FileId == request.FileId && e.UserId == request.UserId && e.RevokedData == null);
         var file = await _dbContext.Files.FirstOrDefaultAsync(e => e.Id == request.FileId);
 
         var fileAccessKey = RsaCryptoService.Decrypt(request.PrivateKey, fileAccess.EncryptedFileAccessKey);

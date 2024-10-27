@@ -28,14 +28,16 @@ public class GetFilesInfoQueryHandler : IRequestHandler<GetFilesInfoQuery, IEnum
 
     public async Task<IEnumerable<FileInfo>> Handle(GetFilesInfoQuery request, CancellationToken ct)
     {
-        var filesInfo = await _dbContext.FilesAccess.Join(_dbContext.Files, fa => fa.FileId, f => f.Id, (fa, f) => new
-        {
-            FileId = f.Id.ToString(),
-            FileName = f.Name,
-            FileSize = f.SizeInBytes,
-            AccessLevel = fa.AccessLevel.ToString(),
-            f.OwnerId
-        }).ToListAsync();
+        var filesInfo = await _dbContext.FilesAccess
+            .Where(fa => fa.UserId == request.UserId && fa.RevokedData == null)
+            .Join(_dbContext.Files, fa => fa.FileId, f => f.Id, (fa, f) => new
+            {
+                FileId = f.Id.ToString(),
+                FileName = f.Name,
+                FileSize = f.SizeInBytes,
+                AccessLevel = fa.AccessLevel.ToString(),
+                f.OwnerId
+            }).ToListAsync();
 
         var userEmails = (await _userService.GetUsers(filesInfo.Select(fi => fi.OwnerId))).ToDictionary(u => u.Id, u => u.Email);
 
