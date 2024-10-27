@@ -34,7 +34,7 @@ public class FilesController : ControllerBase
     [HttpPost("download")]
     public async Task<IActionResult> DownloadFile(GetFileRequest request)
     {
-        var response = await _sender.Send(new GetFileCommand(_userContext.UserId, request.FileId, request.Key));
+        var response = await _sender.Send(new GetFileQuery(_userContext.UserId, request.FileId, request.Key));
         // should not dispose stream, it will be disposed auto-magically 
         return new FileStreamResult(response.Stream, "application/octet-stream")
         {
@@ -42,9 +42,14 @@ public class FilesController : ControllerBase
         };
     }
 
-    [HttpGet("info")]
+    [HttpGet("list")]
     public async Task GetFilesInfo()
     {
-
+        // file name
+        // file size
+        // OwnerEmail
+        // AccessLevel
+        // FileId
+        // CreatedOn
     }
 }

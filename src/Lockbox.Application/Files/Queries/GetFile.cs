@@ -5,20 +5,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lockbox.Application.Files.Queries;
 
-public record GetFileCommand(string UserId, Guid FileId, string PrivateKey) : IRequest<GetFileResult>;
+public record GetFileQuery(string UserId, Guid FileId, string PrivateKey) : IRequest<GetFileResult>;
 // mb will add content type support
 public record GetFileResult(Stream Stream, string FileName);
 
-public class GetFileCommandHandler : IRequestHandler<GetFileCommand, GetFileResult>
+public class GetFileQueryHandler : IRequestHandler<GetFileQuery, GetFileResult>
 {
     private readonly IApplicationDbContext _dbContext;
 
-    public GetFileCommandHandler(IApplicationDbContext dbContext)
+    public GetFileQueryHandler(IApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }
 
-    public async Task<GetFileResult> Handle(GetFileCommand request, CancellationToken cancellationToken)
+    public async Task<GetFileResult> Handle(GetFileQuery request, CancellationToken cancellationToken)
     {
         var fileAccess = await _dbContext.FilesAccess
          .SingleOrDefaultAsync(e => e.FileId == request.FileId && e.UserId == request.UserId);
