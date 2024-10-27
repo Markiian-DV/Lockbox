@@ -19,6 +19,7 @@ public static class DependencyInjection
         });
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         services.AddScoped<ApplicationDbContextInitializer>();
+        services.AddScoped<IUserService, IdentityService>();
         services.AddTransient<IMailService, LocalEmailSender>();
         
         return services;

@@ -5,6 +5,7 @@ using Lockbox.Web.WebModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using FileInfo = Lockbox.Application.Files.Queries.FileInfo;
 
 namespace Lockbox.Web.Controllers;
 
@@ -43,13 +44,9 @@ public class FilesController : ControllerBase
     }
 
     [HttpGet("list")]
-    public async Task GetFilesInfo()
+    public async Task<ActionResult<IEnumerable<FileInfo>>> GetFilesInfo()
     {
-        // file name
-        // file size
-        // OwnerEmail
-        // AccessLevel
-        // FileId
-        // CreatedOn
+        var result = await _sender.Send(new GetFilesInfoQuery(_userContext.UserId));
+        return Ok(result);
     }
 }
