@@ -1,10 +1,12 @@
 import SignUp from "./components/Auth/SignUp";
 import Login from "./components/Auth/Login";
+import Header from "./components/Header/Header"
 import { Route, Router, Routes, Navigate, BrowserRouter } from "react-router-dom";
 
 function App() {
   return (
     <>
+      <Header></Header>
       <BrowserRouter>
         <Routes>
           <Route exact path="/login" element={<Login />} />
