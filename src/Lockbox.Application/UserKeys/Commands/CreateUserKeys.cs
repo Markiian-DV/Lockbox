@@ -20,7 +20,7 @@ public class CreateUserKeysCommandHandler : IRequestHandler<CreateUserKeysComman
 
     public async Task<PrivateKey> Handle(CreateUserKeysCommand request, CancellationToken ct)
     {
-        var existingKey = await _dbContext.PublicKeys.FirstOrDefaultAsync(x => x.UserId == request.UserId);
+        var existingKey = await _dbContext.PublicKeys.FirstOrDefaultAsync(x => x.UserId == request.UserId, ct);
         if(existingKey is not null)
         {
             // #TODO: user result wrapper or custom exception.
@@ -32,9 +32,9 @@ public class CreateUserKeysCommandHandler : IRequestHandler<CreateUserKeysComman
         {
             UserId = request.UserId,
             KeyValue = publicKey
-        });
+        }, ct);
 
-        await _dbContext.SaveChangesAsync();
+        await _dbContext.SaveChangesAsync(ct);
         return new PrivateKey(privateKey);
     }
 }

@@ -37,7 +37,7 @@ public class GetFilesInfoQueryHandler : IRequestHandler<GetFilesInfoQuery, IEnum
                 FileSize = f.SizeInBytes,
                 AccessLevel = fa.AccessLevel.ToString(),
                 f.OwnerId
-            }).ToListAsync();
+            }).ToListAsync(ct);
 
         var userEmails = (await _userService.GetUsers(filesInfo.Select(fi => fi.OwnerId))).ToDictionary(u => u.Id, u => u.Email);
 
