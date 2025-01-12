@@ -24,33 +24,33 @@ const SignUp = () => {
   }, [data, touched]);
 
   const changeHandler = (event) => {
-      setData({ ...data, [event.target.name]: event.target.value });
+    setData({ ...data, [event.target.name]: event.target.value });
   };
 
   const focusHandler = (event) => {
     setTouched({ ...touched, [event.target.name]: true });
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
     if (!Object.keys(errors).length) {
-      // Pushing data to database usuing PHP script
-      const urlApi = `https://blyat`;
-      const pushData = async () => {
-        // const response = axios.get(urlApi);
-        const response = "Confirmation Email is sent"
-        // await toast.promise(responseA, {
-        //   pending: "Check your data",
-        //   success: "Checked!",
-        //   error: "Something went wrong!",
-        // });
-        if (true) {
-          notify("You signed Up successfully", "success");
-        } else {
-          notify("You have already registered, log in to your account", "warning");
-        }
-      };
-      pushData();
+      const urlApi = `https://localhost:7080/api/identity/register`;
+
+      axios.post(urlApi, {
+        email: data.email,
+        password: data.password
+      }).then(response => {
+        console.log(response)
+
+      }).catch(err => {
+        const errorsObj = err.response.data.errors;
+        const errors = Object
+          .getOwnPropertyNames(errorsObj)
+          .map(k => errorsObj[k][0])
+        errors.forEach(error => {
+          notify(error)
+        });
+      })
     } else {
       notify("Please Check fileds again", "error");
       setTouched({

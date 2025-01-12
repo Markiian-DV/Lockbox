@@ -45,12 +45,14 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    using (var scope = app.Services.CreateScope())
-    {
-        //await scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>().Init();
-    }
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors(x =>
+    {
+        x.AllowAnyOrigin()
+         .AllowAnyHeader()
+         .AllowAnyMethod();
+    });
 }
 
 app.MapGroup("api/identity")

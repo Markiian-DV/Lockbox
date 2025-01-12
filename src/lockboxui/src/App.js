@@ -1,7 +1,7 @@
 import SignUp from "./components/Auth/SignUp";
 import Login from "./components/Auth/Login";
 import Header from "./components/Header/Header"
-import { Route, Router, Routes, Navigate, BrowserRouter } from "react-router-dom";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
 
 function App() {
   return (

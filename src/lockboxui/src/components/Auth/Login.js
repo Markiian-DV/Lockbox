@@ -18,15 +18,20 @@ const Login = () => {
 
   const chaeckData = (obj) => {
     const { email, password } = obj;
-    const urlApi = `https://lightem.senatorhost.com/login-react/index.php?email=${email.toLowerCase()}&password=${password}`;
+    const urlApi = `https://localhost:7080/api/identity/login?useCookies=true`;
     const api = axios
-      .get(urlApi)
-      .then((response) => response.data)
-      .then((data) => (data.ok ? notify("You login to your account successfully", "success") : notify("Your password or your email is wrong", "error")));
+      .post(urlApi, {
+        email,
+        password
+      })
+      .then(response => {
+        console.log(response)
+      })
+
     toast.promise(api, {
       pending: "Loading your data...",
       success: false,
-      error: "Something went wrong!",
+      error: "Invalid email or password",
     });
   };
 
