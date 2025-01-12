@@ -10,6 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+
+builder.Services.AddSpaStaticFiles(configuration => {
+    configuration.RootPath = "lockboxui/dist";
+});
 //add web services:
 builder.Services.AddScoped<UserContext>();
 //end web services
@@ -45,14 +49,16 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.MapWhen(y => y.Request.Path.StartsWithSegments("/app"), client =>
+    {
+        client.UseSpa(spa =>
+        {
+            spa.UseProxyToSpaDevelopmentServer("https://localhost:6363");
+        });
+    });
+    
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseCors(x =>
-    {
-        x.AllowAnyOrigin()
-         .AllowAnyHeader()
-         .AllowAnyMethod();
-    });
 }
 
 app.MapGroup("api/identity")
