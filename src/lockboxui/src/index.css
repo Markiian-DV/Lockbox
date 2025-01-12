@@ -3,12 +3,14 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 :root {
   --main-color: #73ace3;
   --secondary-color: #d7e3ef;
   --box-shadow: 0 0 7px 0 var(--secondary-color);
   --main-color-hover: #63a5e2;
 }
+
 body {
   font-size: 14px;
   color: #303030;
