@@ -9,14 +9,11 @@ using Lockbox.Web.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
-
+builder.Services.AddControllersWithViews();
 builder.Services.AddSpaStaticFiles(configuration => {
     configuration.RootPath = "lockboxui/dist";
 });
-//add web services:
 builder.Services.AddScoped<UserContext>();
-//end web services
 builder.Services
     .AddApplicationServices()
     .AddInfrastructureServices(builder.Configuration);

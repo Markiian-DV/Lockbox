@@ -5,10 +5,11 @@ import styles from "./SignUp.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { notify } from "./toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -16,16 +17,18 @@ const Login = () => {
 
   const [touched, setTouched] = useState({});
 
-  const chaeckData = (obj) => {
+  const chaeckData = async (obj) => {
     const { email, password } = obj;
-    const urlApi = `https://localhost:7080/api/identity/login?useCookies=true`;
+    const urlApi = `/api/identity/login?useCookies=true`;
     const api = axios
       .post(urlApi, {
         email,
         password
       })
       .then(response => {
-        console.log(response)
+        if (response.status === 200) {
+          navigate("/dashboard")
+        }
       })
 
     toast.promise(api, {
@@ -72,7 +75,7 @@ const Login = () => {
         <div>
           <button type="submit">Login</button>
           <span style={{ color: "#a29494", textAlign: "center", display: "inline-block", width: "100%" }}>
-            Don't have a account? <Link to="/signup">Create account</Link>
+            Do not have a account? <Link to="/signup">Create account</Link>
           </span>
         </div>
       </form>

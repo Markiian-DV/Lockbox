@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Logo from '../../img/logo.svg'
+import axios from 'axios';
 
 const Header = () => {
     // Mock action handlers
@@ -15,6 +16,19 @@ const Header = () => {
         alert("Logging out!");
     };
 
+    const [email, setEmail] = useState(null)
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        const getInfoUrl = "/api/identity/manage/info"
+        axios.get(getInfoUrl)
+            .then(response => {
+                setEmail(response.data.email)
+                setIsLoggedIn(true)
+            })
+            .catch(err => setIsLoggedIn(false))
+    })
+
     return (
         <header style={styles.header}>
             <div style={styles.logoSection}>
@@ -26,21 +40,22 @@ const Header = () => {
                 <span style={styles.title}>Lockbox</span>
             </div>
 
+            {isLoggedIn &&
+                (<div style={styles.userInfo}>
+                    <button style={styles.navButton} onClick={handleAnalyticsClick}>
+                        Analytics
+                    </button>
+                    <span style={styles.userEmail}>
+                        {email}
+                    </span>
+                    <button style={styles.navButton} onClick={handleSettingsClick}>
+                        Settings
+                    </button>
+                    <button style={styles.navButton} onClick={handleLogoutClick}>
+                        Logout
+                    </button>
+                </div>)}
 
-            <div style={styles.userInfo}>
-                <button style={styles.navButton} onClick={handleAnalyticsClick}>
-                    Analytics
-                </button>
-                <span style={styles.userEmail}>
-                    {/* {email} */}
-                </span>
-                <button style={styles.navButton} onClick={handleSettingsClick}>
-                    Settings
-                </button>
-                <button style={styles.navButton} onClick={handleLogoutClick}>
-                    Logout
-                </button>
-            </div>
         </header>
     );
 };
@@ -55,7 +70,7 @@ const styles = {
         backgroundColor: '#f7f9fc',
         boxShadow: 'var(--box-shadow)',
         borderBottom: '1px solid #d7e3ef',
-        
+
     },
     logoSection: {
         display: 'flex',
