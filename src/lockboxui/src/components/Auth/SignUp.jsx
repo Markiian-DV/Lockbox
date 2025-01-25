@@ -13,7 +13,7 @@ const SignUp = () => {
   const [data, setData] = useState({
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -34,23 +34,25 @@ const SignUp = () => {
   const submitHandler = async (event) => {
     event.preventDefault();
     if (!Object.keys(errors).length) {
-      const urlApi = `https://localhost:7080/api/identity/register`;
+      const urlApi = "https://localhost:7080/api/identity/register";
 
-      axios.post(urlApi, {
-        email: data.email,
-        password: data.password
-      }).then(response => {
-        console.log(response)
-
-      }).catch(err => {
-        const errorsObj = err.response.data.errors;
-        const errors = Object
-          .getOwnPropertyNames(errorsObj)
-          .map(k => errorsObj[k][0])
-        errors.forEach(error => {
-          notify(error)
+      axios
+        .post(urlApi, {
+          email: data.email,
+          password: data.password,
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          const errorsObj = err.response.data.errors;
+          const errors = Object.getOwnPropertyNames(errorsObj).map(
+            (k) => errorsObj[k][0]
+          );
+          errors.forEach((error) => {
+            notify(error);
+          });
         });
-      })
     } else {
       notify("Please Check fileds again", "error");
       setTouched({
@@ -63,32 +65,99 @@ const SignUp = () => {
 
   return (
     <div className={styles.container}>
-      <form className={styles.formLogin} onSubmit={submitHandler} autoComplete="off">
+      <form
+        className={styles.formLogin}
+        onSubmit={submitHandler}
+        autoComplete="off"
+      >
         <h2>Sign Up</h2>
         <div>
-          <div className={errors.email && touched.email ? styles.unCompleted : !errors.email && touched.email ? styles.completed : undefined}>
-            <input type="text" name="email" value={data.email} placeholder="E-mail" onChange={changeHandler} onFocus={focusHandler} autoComplete="off" />
+          <div
+            className={
+              errors.email && touched.email
+                ? styles.unCompleted
+                : !errors.email && touched.email
+                ? styles.completed
+                : undefined
+            }
+          >
+            <input
+              type="text"
+              name="email"
+              value={data.email}
+              placeholder="E-mail"
+              onChange={changeHandler}
+              onFocus={focusHandler}
+              autoComplete="off"
+            />
             <img src={emailIcon} alt="" />
           </div>
-          {errors.email && touched.email && <span className={styles.error}>{errors.email}</span>}
+          {errors.email && touched.email && (
+            <span className={styles.error}>{errors.email}</span>
+          )}
         </div>
         <div>
-          <div className={errors.password && touched.password ? styles.unCompleted : !errors.password && touched.password ? styles.completed : undefined}>
-            <input type="password" name="password" value={data.password} placeholder="Password" onChange={changeHandler} onFocus={focusHandler} autoComplete="off" />
+          <div
+            className={
+              errors.password && touched.password
+                ? styles.unCompleted
+                : !errors.password && touched.password
+                ? styles.completed
+                : undefined
+            }
+          >
+            <input
+              type="password"
+              name="password"
+              value={data.password}
+              placeholder="Password"
+              onChange={changeHandler}
+              onFocus={focusHandler}
+              autoComplete="off"
+            />
             <img src={passwordIcon} alt="" />
           </div>
-          {errors.password && touched.password && <span className={styles.error}>{errors.password}</span>}
+          {errors.password && touched.password && (
+            <span className={styles.error}>{errors.password}</span>
+          )}
         </div>
         <div>
-          <div className={errors.confirmPassword && touched.confirmPassword ? styles.unCompleted : !errors.confirmPassword && touched.confirmPassword ? styles.completed : !errors.confirmPassword && touched.confirmPassword ? styles.completed : undefined}>
-            <input type="password" name="confirmPassword" value={data.confirmPassword} placeholder="Confirm Password" onChange={changeHandler} onFocus={focusHandler} autoComplete="off" />
+          <div
+            className={
+              errors.confirmPassword && touched.confirmPassword
+                ? styles.unCompleted
+                : !errors.confirmPassword && touched.confirmPassword
+                ? styles.completed
+                : !errors.confirmPassword && touched.confirmPassword
+                ? styles.completed
+                : undefined
+            }
+          >
+            <input
+              type="password"
+              name="confirmPassword"
+              value={data.confirmPassword}
+              placeholder="Confirm Password"
+              onChange={changeHandler}
+              onFocus={focusHandler}
+              autoComplete="off"
+            />
             <img src={passwordIcon} alt="" />
           </div>
-          {errors.confirmPassword && touched.confirmPassword && <span className={styles.error}>{errors.confirmPassword}</span>}
+          {errors.confirmPassword && touched.confirmPassword && (
+            <span className={styles.error}>{errors.confirmPassword}</span>
+          )}
         </div>
         <div>
           <button type="submit">Create Account</button>
-          <span style={{ color: "#a29494", textAlign: "center", display: "inline-block", width: "100%" }}>
+          <span
+            style={{
+              color: "#a29494",
+              textAlign: "center",
+              display: "inline-block",
+              width: "100%",
+            }}
+          >
             Already have a account? <Link to="/login">Sign In</Link>
           </span>
         </div>
