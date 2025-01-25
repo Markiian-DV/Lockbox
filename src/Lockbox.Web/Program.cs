@@ -46,16 +46,29 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapWhen(y => y.Request.Path.StartsWithSegments("/app"), client =>
-    {
-        client.UseSpa(spa =>
+    app.MapWhen(context => !context.Request.Path.StartsWithSegments("/api") && 
+                           !context.Request.Path.StartsWithSegments("/swagger"), 
+        client =>
         {
-            spa.UseProxyToSpaDevelopmentServer("https://localhost:6363");
+            client.UseSpa(spa =>
+            {
+                spa.UseProxyToSpaDevelopmentServer("https://localhost:6363");
+            });
         });
-    });
     
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+else
+{
+    // Use HSTS and HTTPS redirection in production
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+    app.UseHttpsRedirection();
+
+    // Serve static files for production
+    app.UseStaticFiles();
+    app.UseSpaStaticFiles();
 }
 
 app.MapGroup("api/identity")
