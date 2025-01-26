@@ -5,6 +5,8 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import withAuth from "./components/hoc/withAuth";
 
+const ProtectedDashboard = withAuth(Dashboard);
+
 function App() {
 	return (
 		<>
@@ -13,8 +15,8 @@ function App() {
 				<Routes>
 					<Route exact path="/login" element={<Login />} />
 					<Route exact path="/signup" element={<SignUp />} />
-					<Route exact path="/dashboard" Component={withAuth(Dashboard)} />
-					<Route path="*" Component={withAuth(Dashboard)} />
+					<Route exact path="/dashboard" element={<ProtectedDashboard />} />
+					<Route path="*" element={<ProtectedDashboard />} />
 				</Routes>
 			</BrowserRouter>
 		</>
