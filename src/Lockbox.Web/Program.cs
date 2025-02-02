@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSpaStaticFiles(configuration => {
-    configuration.RootPath = "lockboxui/dist";
+    configuration.RootPath = "wwwroot/client";
 });
 builder.Services.AddScoped<UserContext>();
 builder.Services
@@ -42,7 +42,7 @@ builder.Services
 
 
 var app = builder.Build();
-
+Console.WriteLine(app.Environment.IsDevelopment());
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -67,8 +67,17 @@ else
     app.UseHttpsRedirection();
 
     // Serve static files for production
-    app.UseStaticFiles();
     app.UseSpaStaticFiles();
+    app.MapWhen(context => !context.Request.Path.StartsWithSegments("/api") && 
+                           !context.Request.Path.StartsWithSegments("/swagger"), 
+        client =>
+        {
+            client.UseSpa(spa =>
+            {
+                // idk how it works)))
+                // spa.Options.SourcePath = "wwwroot/client/";
+            });
+        });
 }
 
 app.MapGroup("api/identity")
