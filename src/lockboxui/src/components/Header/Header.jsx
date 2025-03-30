@@ -6,6 +6,12 @@ const Header = () => {
 	// Mock action handlers
 	const handleAnalyticsClick = () => {
 		alert("Navigating to Analytics!");
+		const urlApi = "/api/test";
+		const api = axios
+			.get(urlApi)
+			.then((response) => {
+				console.log(response)
+			});
 	};
 
 	const handleSettingsClick = () => {

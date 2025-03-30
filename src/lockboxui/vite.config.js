@@ -10,8 +10,9 @@ export default defineConfig({
 		emptyOutDir: true,
 	},
 	server: {
-		https: true,
+		https: false,
 		port: 6363,
+		host: "0.0.0.0"
 	},
 	plugins: [react(), mkcert()],
 });

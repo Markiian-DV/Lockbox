@@ -1,0 +1,12 @@
+services:
+  lockbox.web:
+    image: ${DOCKER_REGISTRY-}lockboxweb
+    build:
+      context: .
+      dockerfile: src/Lockbox.Web/Dockerfile
+    ports:
+      - "6363:6363"
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development

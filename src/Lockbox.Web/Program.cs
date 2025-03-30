@@ -52,7 +52,7 @@ if (app.Environment.IsDevelopment())
         {
             client.UseSpa(spa =>
             {
-                spa.UseProxyToSpaDevelopmentServer("https://localhost:6363");
+                spa.UseProxyToSpaDevelopmentServer("http://host.docker.internal:6363");
             });
         });
     
