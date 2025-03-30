@@ -507,3 +507,6 @@ dist-ssr
 *.ntvs*
 *.njsproj
 *.sw?
+
+# docker volumes
+.containers/

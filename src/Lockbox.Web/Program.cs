@@ -26,7 +26,7 @@ builder.Services
      .AddTransient<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender, IdentityEmailSender>()
      .AddIdentityCore<ApplicationUser>(opt =>
      {
-         opt.SignIn.RequireConfirmedEmail = true;
+         opt.SignIn.RequireConfirmedEmail = false; // remove after smtp is added to docker
      })
      .AddRoles<IdentityRole>()
      .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -58,6 +58,7 @@ if (app.Environment.IsDevelopment())
     
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.ApplyMigrations();
 }
 else
 {

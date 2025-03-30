@@ -1,6 +1,8 @@
 services:
+
   lockbox.web:
     image: ${DOCKER_REGISTRY-}lockboxweb
+    container_name: lockbox.web
     build:
       context: .
       dockerfile: src/Lockbox.Web/Dockerfile
@@ -10,3 +12,17 @@ services:
       - "8081:8081"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+
+  lockbox.database:
+    image: postgres:latest
+    container_name: lockbox.database
+    environment:
+      - POSTGRES_PASSWORD=Lockbox
+      - POSTGRES_USER=Lockbox
+      - POSTGRES_DB=Lockbox
+    volumes:
+      - ./.containers/lockbox-db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
