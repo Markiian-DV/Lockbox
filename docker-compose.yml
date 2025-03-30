@@ -26,3 +26,10 @@ services:
       - ./.containers/lockbox-db:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+
+  lockbox.smtp:
+    image: "rnwood/smtp4dev"
+    container_name: lockbox.smtp
+    restart: unless-stopped
+    ports:
+      - "5011:80"

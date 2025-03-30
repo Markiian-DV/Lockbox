@@ -21,7 +21,8 @@ public static class DependencyInjection
         services.AddScoped<ApplicationDbContextInitializer>();
         services.AddScoped<IUserService, IdentityService>();
         services.AddTransient<IMailService, LocalEmailSender>();
-        
+        services.Configure<EmailConfiguration>(configuration.GetSection("EmailConfiguration"));
+
         return services;
     }
 }
